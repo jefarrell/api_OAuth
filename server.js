@@ -3,6 +3,7 @@ var express = require('express');
 var Twit = require('twit');
 var app = express();
 
+// Start server, run initialize
 var server = app.listen(3000,function() {
 	var host = server.address().address;
 	var port = server.address().port;
@@ -10,7 +11,7 @@ var server = app.listen(3000,function() {
 	initialize();
 });
 
-
+// Read arguments, splice, make object, call appropriate method
 function initialize() {
 	var programList = ['twitter', 'instagram'];
 	var args = process.argv.slice(2);
@@ -20,6 +21,8 @@ function initialize() {
 	if (programList.indexOf(program) > -1) {
 		console.log("ran: " + program);
 		api[program]();
+	} else {
+		return new Error('Unrecognized program!  Try: ' + programList));
 	}
 }
 
@@ -42,11 +45,14 @@ readInputs.prototype.twitter = function() {
 
 	if (app.get('/tweetsearch/:search', function(req,res){
 		var searchTerm = req.params.search;
-		console.log(searchTerm);
 		T.get('search/tweets', {q: searchTerm, count:1}, function(err,data,response){
 			console.log(data);
 		})
 	}));
+}
+
+readInputs.prototype.instagram = function() {
+
 }
 
 
