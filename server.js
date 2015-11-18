@@ -22,7 +22,7 @@ function initialize() {
 		console.log("ran: " + program);
 		api[program]();
 	} else {
-		return new Error('Unrecognized program!  Try: ' + programList));
+		return new Error('Unrecognized program!  Try: ' + programList);
 	}
 }
 
