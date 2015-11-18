@@ -1,8 +1,8 @@
 
 var express = require('express');
 var Twit = require('twit');
-
 var app = express();
+
 var server = app.listen(3000,function() {
 	var host = server.address().address;
 	var port = server.address().port;
@@ -18,6 +18,7 @@ function initialize() {
 	var program = args[0].toLowerCase();
 
 	if (programList.indexOf(program) > -1) {
+		console.log("ran: " + program);
 		api[program]();
 	}
 }
@@ -39,11 +40,13 @@ readInputs.prototype.twitter = function() {
 		access_token_secret:this.tokenSecret
 	});
 
-	if (app.get'/twitsearch', function(req,res){
-		T.get('search/tweets', {q: 'lebron', count:1}, function(err,data,response){
+	if (app.get('/tweetsearch/:search', function(req,res){
+		var searchTerm = req.params.search;
+		console.log(searchTerm);
+		T.get('search/tweets', {q: searchTerm, count:1}, function(err,data,response){
 			console.log(data);
 		})
-	})
+	}));
 }
 
 
