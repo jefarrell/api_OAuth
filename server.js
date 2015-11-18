@@ -22,9 +22,11 @@ function initialize() {
 		console.log("ran: " + program);
 		api[program]();
 	} else {
+		// Right way to do this?
 		return new Error('Unrecognized program!  Try: ' + programList);
 	}
 }
+
 
 function readInputs(program, clientKey, clientSecret, token, tokenSecret){
 	this.program = program;
@@ -35,6 +37,7 @@ function readInputs(program, clientKey, clientSecret, token, tokenSecret){
 }
 
 
+// Twitter method, routes for searching & posting
 readInputs.prototype.twitter = function() {
 	var T = new Twit({
 		consumer_key:this.clientkey,
@@ -43,13 +46,22 @@ readInputs.prototype.twitter = function() {
 		access_token_secret:this.tokenSecret
 	});
 
-	if (app.get('/tweetsearch/:search', function(req,res){
+	app.get('/tweetsearch/:search', function(req,res){
 		var searchTerm = req.params.search;
 		T.get('search/tweets', {q: searchTerm, count:1}, function(err,data,response){
-			console.log(data);
+			return data;
 		})
-	}));
+	});
+
+	app.get('/tweetpost/:post', function(req,res){
+		console.log("here");
+		var postTerm = req.params.post;
+		T.post('statuses/update', {status: postTerm}, function(err,data,response){
+			return data;
+		})
+	})
 }
+
 
 readInputs.prototype.instagram = function() {
 
