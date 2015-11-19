@@ -1,4 +1,3 @@
-
 var express = require('express');
 var Twit = require('twit');
 var app = express();
@@ -17,9 +16,7 @@ function initialize() {
 	var args = process.argv.slice(2);
 	var api = new readInputs(args[0],args[1],args[2],args[3],args[4]);
 	var program = args[0].toLowerCase();
-
 	if (programList.indexOf(program) > -1) {
-		console.log("ran: " + program);
 		api[program]();
 	} else {
 		// Right way to do this?
@@ -27,7 +24,8 @@ function initialize() {
 	}
 }
 
-
+// inputs are arguments to run
+//// ie node server.js twitter clientkey clientsecret, token, tokensecret
 function readInputs(program, clientKey, clientSecret, token, tokenSecret){
 	this.program = program;
 	this.clientkey = clientKey;
@@ -46,6 +44,7 @@ readInputs.prototype.twitter = function() {
 		access_token_secret:this.tokenSecret
 	});
 
+	// Needs a count parameter
 	app.get('/tweetsearch/:search', function(req,res){
 		var searchTerm = req.params.search;
 		T.get('search/tweets', {q: searchTerm, count:1}, function(err,data,response){
@@ -54,7 +53,6 @@ readInputs.prototype.twitter = function() {
 	});
 
 	app.get('/tweetpost/:post', function(req,res){
-		console.log("here");
 		var postTerm = req.params.post;
 		T.post('statuses/update', {status: postTerm}, function(err,data,response){
 			return data;
@@ -66,13 +64,3 @@ readInputs.prototype.twitter = function() {
 readInputs.prototype.instagram = function() {
 
 }
-
-
-
-
-
-
-
-
-
-
