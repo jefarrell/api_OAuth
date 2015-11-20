@@ -44,10 +44,14 @@ readInputs.prototype.twitter = function() {
 		access_token_secret:this.tokenSecret
 	});
 
-	// Needs a count parameter
-	app.get('/tweetsearch/:search', function(req,res){
+	app.get('/tweetsearch/:search/:count', function(req,res){
 		var searchTerm = req.params.search;
-		T.get('search/tweets', {q: searchTerm, count:1}, function(err,data,response){
+		var tweetCount = req.params.count
+		if (tweetCount > 100) { 
+			tweetCount = 100;
+		}
+		T.get('search/tweets', {q: searchTerm, count:tweetCount}, function(err,data,response){
+			console.log(data);
 			return data;
 		})
 	});
